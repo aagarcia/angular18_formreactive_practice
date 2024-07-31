@@ -7,7 +7,7 @@
       class="mt-1 px-2 py-1 block w-full"
     >
       <option value="" disabled>Elegir Pais</option>
-      <option [value]="pais.name.common" *ngFor="let pais of listPaises">{{ pais.name.common }}</option>
+      <option [value]="pais" *ngFor="let pais of listPaises">{{ pais }}</option>
     </select>
     <div
       *ngIf="

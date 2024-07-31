@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Pais } from '../../interfaces/pais';
 import { ApiService } from '../../services/api.service';
 import { map } from 'rxjs/operators';
 
@@ -17,25 +16,35 @@ export class AddressFieldComponent implements OnInit {
   @Input() label!: string;
   @Input() errorMessage!: string;
 
-  listPaises: Pais[] = [];
+  listPaises: string[] = [];
   listCiudades: string[] = [];
 
   constructor(private myService: ApiService) {}
 
   ngOnInit(): void {
+
     if (this.controlName === 'country') {
-      this.myService.getData().pipe(
+      /* this.myService.getData().pipe(
         map<any[], Pais[]>( this.getPais ),
       ).subscribe({
         next: (response) => (this.listPaises = response),
         error: (error) => console.error('Error fetching data', error),
+      }); */
+      this.myService.getCountries()
+      .pipe(
+        map((data) => data.data ),
+        map((data) => data.map(({country}: any) => country))
+      )
+      .subscribe({
+        next: (response) => (this.listPaises = response),
+        error: (error) => console.error(`Error fetching data: ${error}`)
       });
     }
 
     if (this.controlName === 'city') {
       this.formGroup.get('country')?.valueChanges.subscribe((value) => {
         if (value) {
-          this.myService.postGetCity(value)
+          this.myService.postGetCities(value)
           .pipe(
             map<any, string[]>( this.getCiudad ),
           )
@@ -48,7 +57,7 @@ export class AddressFieldComponent implements OnInit {
     }
   }
 
-  private getPais(value: any[]): Pais[] {
+  /* private getPais(value: any[]): Pais[] {
     const list: Pais[] = value.map<Pais>((val: any) => {
       const pais: Pais = val;
       return pais;
@@ -56,10 +65,10 @@ export class AddressFieldComponent implements OnInit {
 
     return list.sort((a, b) => (a.name.common > b.name.common ? 1 : -1));
 
-    /* const listFilter = list.filter((value) => value.name.common === 'Ecuador');
+    const listFilter = list.filter((value) => value.name.common === 'Ecuador');
 
-    return listFilter; */
-  };
+    return listFilter;
+  }; */
 
   private getCiudad(value: any): string[] {
     const { data } = value;
