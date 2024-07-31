@@ -11,16 +11,12 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  // Método para obtener datos de la API
-  /* getData(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}?fields=name,flags`); // Reemplaza '?fields=name,flags' con el endpoint de tu API
-  } */
+  getCountries(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}`);
+  }
 
   postGetCities(pais: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/cities`, { country: pais });
   }
 
-  getCountries(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}`);
-  }
 }
