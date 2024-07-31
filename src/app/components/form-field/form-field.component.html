@@ -1,0 +1,16 @@
+<div class="mb-4 block max-w-md" [formGroup]="formGroup">
+  <label [for]="controlName" class="font-medium">{{ label }}:</label>
+  <input
+    [id]="controlName"
+    [formControlName]="controlName"
+    class="px-4 py-1 block w-full"
+  />
+  <div
+    *ngIf="
+      formGroup.get(controlName)?.invalid && formGroup.get(controlName)?.touched
+    "
+    class="text-red-600 mt-2"
+  >
+    {{ errorMessage }}
+  </div>
+</div>

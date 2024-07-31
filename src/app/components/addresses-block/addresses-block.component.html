@@ -1,0 +1,24 @@
+<div [formGroup]="addressGroup" class="max-w-md">
+  <h3 class="font-bold mb-4 block">Address {{ index + 1 }}</h3>
+
+  <app-address-field
+    [formGroup]="addressGroup"
+    controlName="street"
+    label="Street"
+    errorMessage="Street is required."
+  ></app-address-field>
+
+  <app-address-field
+    [formGroup]="addressGroup"
+    controlName="city"
+    label="City"
+    errorMessage="City is required."
+  ></app-address-field>
+
+  <app-address-field
+    [formGroup]="addressGroup"
+    controlName="country"
+    label="Country"
+    errorMessage="Country is required."
+  ></app-address-field>
+</div>
