@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './address-field.component.html',
 })
-export class AddressFieldComponent implements OnInit {
+export class AddressFieldComponent implements OnInit, OnChanges {
   @Input() formGroup!: FormGroup;
   @Input() controlName!: string;
   @Input() label!: string;
@@ -20,6 +20,22 @@ export class AddressFieldComponent implements OnInit {
   listCiudades: string[] = [];
 
   constructor(private myService: ApiService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.formGroup.get('country')?.valueChanges.subscribe((value) => {
+      if (value) {
+        this.formGroup.get('city')?.setValue("");
+        this.myService.postGetCities(value)
+        .pipe(
+          map<any, string[]>( this.getCiudad ),
+        )
+        .subscribe({
+          next: (response) => (this.listCiudades = response),
+          error: (error) => console.error('Error fetching data', error),
+        });
+      }
+    });
+  }
 
   ngOnInit(): void {
 
@@ -41,7 +57,7 @@ export class AddressFieldComponent implements OnInit {
       });
     }
 
-    if (this.controlName === 'city') {
+    /* if (this.controlName === 'city') {
       this.formGroup.get('country')?.valueChanges.subscribe((value) => {
         if (value) {
           this.myService.postGetCities(value)
@@ -54,7 +70,7 @@ export class AddressFieldComponent implements OnInit {
           });
         }
       });
-    }
+    } */
   }
 
   /* private getPais(value: any[]): Pais[] {

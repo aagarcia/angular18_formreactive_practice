@@ -1,6 +1,8 @@
-@if (controlName === 'country') {
-  <div class="mb-4 block" [formGroup]="formGroup">
-    <label [for]="controlName" class="font-medium">{{ label }}:</label>
+<div class="mb-4 block" [formGroup]="formGroup">
+  <label [for]="controlName" class="font-medium">{{ label }}:</label>
+
+  @if (controlName === 'country') {
+  
     <select
       [id]="controlName"
       [formControlName]="controlName"
@@ -9,19 +11,10 @@
       <option value="" disabled>Elegir Pais</option>
       <option [value]="pais" *ngFor="let pais of listPaises">{{ pais }}</option>
     </select>
-    <div
-      *ngIf="
-        formGroup.get(controlName)?.invalid && formGroup.get(controlName)?.touched
-      "
-      class="text-red-600 mt-2"
-    >
-      {{ errorMessage }}
-    </div>
-  </div>
-}
-@else if (controlName === 'city') {
-  <div class="mb-4 block" [formGroup]="formGroup">
-    <label [for]="controlName" class="font-medium">{{ label }}:</label>
+  
+  }
+  @else if (controlName === 'city') {
+
     <select
       [id]="controlName"
       [formControlName]="controlName"
@@ -30,32 +23,23 @@
       <option value="" disabled>Elegir Ciudad</option>
       <option [value]="ciudad" *ngFor="let ciudad of listCiudades">{{ ciudad }}</option>
     </select>
-    <div
-      *ngIf="
-        formGroup.get(controlName)?.invalid && formGroup.get(controlName)?.touched
-      "
-      class="text-red-600 mt-2"
-    >
-      {{ errorMessage }}
-    </div>
-  </div>
-}
-@else {
-  <div class="mb-4 block" [formGroup]="formGroup">
-    <label [for]="controlName" class="font-medium">{{ label }}:</label>
+  }
+  @else {
+
     <input
       [id]="controlName"
       [formControlName]="controlName"
       class="px-2 py-1 block w-full"
     />
-    <div
-      *ngIf="
-        formGroup.get(controlName)?.invalid && formGroup.get(controlName)?.touched
-      "
-      class="text-red-600 mt-2"
-    >
-      {{ errorMessage }}
-    </div>
-  </div>
-}
+  
+  }
 
+  <div
+    *ngIf="
+      formGroup.get(controlName)?.invalid && formGroup.get(controlName)?.touched
+    "
+    class="text-red-600 mt-2"
+  >
+    {{ errorMessage }}
+  </div>
+</div>
